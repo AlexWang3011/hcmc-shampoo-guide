@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -19,7 +21,7 @@
             min-height: 100vh;
             color: #1e293b;
         }
-        
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -34,7 +36,7 @@
             background: linear-gradient(135deg, #ec4899, #db2777);
             color: white;
             border-color: #ec4899;
-            box-shadow: 0 4px 14px rgba(236,72,153,0.35);
+            box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35);
         }
 
         .loader {
@@ -48,8 +50,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .app-launch-card {
@@ -57,6 +64,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .app-launch-card::after {
             content: '點擊開啟 ➔';
             position: absolute;
@@ -68,14 +76,16 @@
             transform: translateX(-5px);
             transition: all 0.3s ease;
         }
+
         .app-launch-card:hover::after {
             opacity: 1;
             transform: translateX(0);
         }
+
         .app-launch-card:active {
             transform: scale(0.97);
         }
-        
+
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -90,8 +100,8 @@
             left: 50%;
             bottom: 30px;
             font-size: 13px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(236,72,153,0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(236, 72, 153, 0.3);
         }
 
         #toast.show {
@@ -99,13 +109,42 @@
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .animate-fadeIn {
             animation: fadeIn 0.4s ease-out forwards;
         }
@@ -115,15 +154,19 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .tab-scroll::-webkit-scrollbar { display: none; }
+
+        .tab-scroll::-webkit-scrollbar {
+            display: none;
+        }
 
         /* 店家卡片 hover 升起 */
         .shop-card {
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
+
         .shop-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(236,72,153,0.18);
+            box-shadow: 0 16px 40px rgba(236, 72, 153, 0.18);
         }
 
         /* 價目卡片光澤效果 */
@@ -131,37 +174,61 @@
             position: relative;
             overflow: hidden;
         }
+
         .price-card-shine::before {
             content: '';
             position: absolute;
-            top: 0; left: -75%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.04) 100%);
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.04) 100%);
             transform: skewX(-25deg);
             transition: left 0.6s ease;
             pointer-events: none;
         }
-        .price-card-shine:hover::before { left: 125%; }
+
+        .price-card-shine:hover::before {
+            left: 125%;
+        }
     </style>
 </head>
+
 <body class="antialiased pb-12">
 
 
     <div class="max-w-6xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
 
         <!-- Header -->
-        <header class="relative rounded-[2.5rem] p-8 md:p-14 mb-8 text-center overflow-hidden" style="background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 50%, #fff1f2 100%); box-shadow: 0 20px 60px rgba(236,72,153,0.10), 0 1px 0 rgba(255,255,255,0.9) inset;">
-            <div class="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(249,168,212,0.3) 0%, transparent 70%); transform: translate(25%,-30%);"></div>
-            <div class="absolute bottom-0 left-0 w-52 h-52 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(192,132,252,0.2) 0%, transparent 70%); transform: translate(-30%, 30%);"></div>
+        <header class="relative rounded-[2.5rem] p-8 md:p-14 mb-8 text-center overflow-hidden"
+            style="background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 50%, #fff1f2 100%); box-shadow: 0 20px 60px rgba(236,72,153,0.10), 0 1px 0 rgba(255,255,255,0.9) inset;">
+            <div class="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(249,168,212,0.3) 0%, transparent 70%); transform: translate(25%,-30%);">
+            </div>
+            <div class="absolute bottom-0 left-0 w-52 h-52 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(192,132,252,0.2) 0%, transparent 70%); transform: translate(-30%, 30%);">
+            </div>
             <div class="relative z-10">
-                <div class="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-5">🗺️ 胡志明市第一郡 · 旅遊攻略</div>
-                <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-3" style="color: #be185d;">越式洗頭<br><span class="text-slate-800">君王之選</span></h1>
-                <p class="text-sm md:text-base text-slate-500 max-w-xl mx-auto leading-relaxed">精選名店資訊、各店服務價目、實用溝通工具與周邊在地美食導覽。</p>
+                <div
+                    class="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-5">
+                    🗺️ 胡志明市第一郡 · 旅遊攻略</div>
+                <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-3" style="color: #be185d;">越式洗頭<br><span
+                        class="text-slate-800">君王之選</span></h1>
+                <p class="text-sm md:text-base text-slate-500 max-w-xl mx-auto leading-relaxed">
+                    精選名店資訊、各店服務價目、實用溝通工具與周邊在地美食導覽。</p>
                 <div class="flex flex-wrap justify-center gap-2 mt-5">
-                    <span class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">💆 越式舒壓</span>
-                    <span class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🏙️ 頂級體驗</span>
-                    <span class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🗺️ 一鍵導航</span>
-                    <span class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🍜 美食導覽</span>
+                    <span
+                        class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">💆
+                        越式舒壓</span>
+                    <span
+                        class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🏙️
+                        頂級體驗</span>
+                    <span
+                        class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🗺️
+                        一鍵導航</span>
+                    <span
+                        class="bg-white/80 border border-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-medium shadow-sm">🍜
+                        美食導覽</span>
                 </div>
             </div>
         </header>
@@ -169,7 +236,8 @@
         <!-- 圖表區 -->
         <section class="mb-8 bg-white rounded-[2rem] p-6 md:p-8" style="box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
             <div class="text-center mb-2">
-                <h2 class="text-lg font-bold text-slate-700 flex items-center justify-center gap-2"><span>📊</span> 各店消費預估比較</h2>
+                <h2 class="text-lg font-bold text-slate-700 flex items-center justify-center gap-2"><span>📊</span>
+                    各店消費預估比較</h2>
                 <p class="text-slate-400 text-xs mt-1">對比起步價與全套上限（萬盾）</p>
             </div>
             <div class="chart-container">
@@ -180,28 +248,38 @@
         <!-- 店家區 -->
         <section class="mb-8">
             <div class="mb-5 flex items-center gap-3">
-                <div class="w-1 h-7 rounded-full" style="background: linear-gradient(to bottom, #ec4899, #f43f5e);"></div>
+                <div class="w-1 h-7 rounded-full" style="background: linear-gradient(to bottom, #ec4899, #f43f5e);">
+                </div>
                 <h2 class="text-xl font-bold text-slate-800">📍 精選店家資訊</h2>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="shop-grid"></div>
         </section>
 
         <!-- 助理與工具區 -->
-        <section class="mb-8 rounded-[2.5rem] p-6 md:p-10 shadow-2xl text-white relative overflow-hidden" style="background: linear-gradient(145deg, #0f172a 0%, #1e293b 60%, #0c1629 100%);">
-            <div class="absolute -right-16 -top-16 w-72 h-72 rounded-full pointer-events-none opacity-10" style="background: radial-gradient(circle, #ec4899, transparent);"></div>
-            <div class="absolute -left-12 -bottom-12 w-52 h-52 rounded-full pointer-events-none opacity-5" style="background: radial-gradient(circle, #818cf8, transparent);"></div>
+        <section class="mb-8 rounded-[2.5rem] p-6 md:p-10 shadow-2xl text-white relative overflow-hidden"
+            style="background: linear-gradient(145deg, #0f172a 0%, #1e293b 60%, #0c1629 100%);">
+            <div class="absolute -right-16 -top-16 w-72 h-72 rounded-full pointer-events-none opacity-10"
+                style="background: radial-gradient(circle, #ec4899, transparent);"></div>
+            <div class="absolute -left-12 -bottom-12 w-52 h-52 rounded-full pointer-events-none opacity-5"
+                style="background: radial-gradient(circle, #818cf8, transparent);"></div>
 
             <div class="relative z-10">
                 <!-- 手機可橫向捲動的 Tab 列 -->
                 <div class="overflow-x-auto tab-scroll mb-7 border-b border-slate-800 pb-5">
                     <div class="flex gap-2 w-max md:w-auto">
-                        <button class="tab-btn active whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all" data-target="google-translate">
+                        <button
+                            class="tab-btn active whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all"
+                            data-target="google-translate">
                             🗣️ 實用翻譯工具
                         </button>
-                        <button class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all" data-target="local-food">
+                        <button
+                            class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all"
+                            data-target="local-food">
                             🍜 在地美食導覽
                         </button>
-                        <button class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all" data-target="shop-prices">
+                        <button
+                            class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl font-bold text-sm border border-slate-700 hover:border-pink-500 transition-all"
+                            data-target="shop-prices">
                             📜 詳細價目表
                         </button>
                     </div>
@@ -216,41 +294,49 @@
                         <p class="text-sm text-slate-300 mb-6 leading-relaxed">
                             在越南當地，強烈建議手機必備 <b>Google 翻譯 App</b>。比起文字輸入，善用以下三招能大幅提升溝通效率，完全不需要消耗任何額度：
                         </p>
-                        
+
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                            <div onclick="launchTranslateApp('camera')" class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
+                            <div onclick="launchTranslateApp('camera')"
+                                class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
                                 <div class="text-3xl mb-3">📸</div>
                                 <h4 class="font-bold text-blue-300 mb-2 text-sm">相機即時翻譯</h4>
                                 <p class="text-xs text-slate-400 leading-relaxed">對準越文菜單或價目表，螢幕直接顯示中文，點餐不求人。</p>
                                 <div class="mt-3 flex items-center gap-1.5">
-                                    <span class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
                                     <span class="text-[10px] text-green-400 font-semibold">點擊開啟 App 相機</span>
                                 </div>
                             </div>
-                            <div onclick="launchTranslateApp('voice')" class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
+                            <div onclick="launchTranslateApp('voice')"
+                                class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
                                 <div class="text-3xl mb-3">🎙️</div>
                                 <h4 class="font-bold text-blue-300 mb-2 text-sm">語音對話模式</h4>
                                 <p class="text-xs text-slate-400 leading-relaxed">想請技師「按大力一點」？開啟對話模式，你說中文，手機幫你說越文。</p>
                                 <div class="mt-3 flex items-center gap-1.5">
-                                    <span class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
                                     <span class="text-[10px] text-green-400 font-semibold">點擊開啟 App 語音</span>
                                 </div>
                             </div>
-                            <div onclick="launchTranslateApp('photo')" class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
+                            <div onclick="launchTranslateApp('photo')"
+                                class="app-launch-card bg-slate-900/80 p-5 rounded-xl border border-slate-700 hover:border-blue-400 hover:bg-blue-950/60 transition-all">
                                 <div class="text-3xl mb-3">🖼️</div>
                                 <h4 class="font-bold text-blue-300 mb-2 text-sm">照片匯入翻譯</h4>
                                 <p class="text-xs text-slate-400 leading-relaxed">截圖或拍下不懂的招牌，匯入 App 就能精準辨識文字並翻譯。</p>
                                 <div class="mt-3 flex items-center gap-1.5">
-                                    <span class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
                                     <span class="text-[10px] text-green-400 font-semibold">點擊開啟 App 相簿</span>
                                 </div>
                             </div>
                         </div>
 
-                        <a href="https://translate.google.com/?sl=zh-TW&tl=vi&op=translate" target="_blank" class="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg text-sm md:text-base">
+                        <a href="https://translate.google.com/?sl=zh-TW&tl=vi&op=translate" target="_blank"
+                            class="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg text-sm md:text-base">
                             <span class="text-xl">👉</span> 開啟 Google 翻譯文字模式 (中 ➔ 越)
                         </a>
-                        <p class="text-[10px] text-slate-400 text-center mt-3 leading-relaxed">📱 手機用戶：直接點擊上方三張卡片可嘗試喚醒 App 對應功能<br>💻 電腦用戶：點擊下方按鈕使用網頁版翻譯</p>
+                        <p class="text-[10px] text-slate-400 text-center mt-3 leading-relaxed">📱 手機用戶：直接點擊上方三張卡片可嘗試喚醒
+                            App 對應功能<br>💻 電腦用戶：點擊下方按鈕使用網頁版翻譯</p>
                     </div>
                 </div>
 
@@ -263,7 +349,8 @@
                                 <p class="text-slate-400 text-xs italic">選擇目前所在地，自動更新周邊推薦連結：</p>
                             </div>
                             <div class="min-w-[240px]">
-                                <select id="center-shop-selector" onchange="updateFoodLinks()" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white appearance-none outline-none focus:border-pink-500 text-sm">
+                                <select id="center-shop-selector" onchange="updateFoodLinks()"
+                                    class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white appearance-none outline-none focus:border-pink-500 text-sm">
                                     <!-- 選項由 JS 填充 -->
                                 </select>
                             </div>
@@ -289,9 +376,10 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mt-8 pt-4 border-t border-slate-800 text-center">
-                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">※ 點擊按鈕將開啟 Google 地圖並自動篩選高評分在地搜尋結果</p>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">※ 點擊按鈕將開啟 Google
+                            地圖並自動篩選高評分在地搜尋結果</p>
                     </div>
                 </div>
 
@@ -302,7 +390,9 @@
                         <span class="text-amber-400 text-lg mt-0.5 shrink-0">⚠️</span>
                         <div>
                             <p class="text-amber-300 font-semibold text-sm">價格來源：Google Maps 評論與網路資訊</p>
-                            <p class="text-amber-200/60 text-xs mt-1 leading-relaxed">以下價格整理自 Google Maps 評論、旅遊論壇及各店社群媒體，<strong class="text-amber-200/80">不一定齊全，僅供參考</strong>。實際收費請以到店確認為準，建議事前致電詢問。</p>
+                            <p class="text-amber-200/60 text-xs mt-1 leading-relaxed">以下價格整理自 Google Maps
+                                評論、旅遊論壇及各店社群媒體，<strong
+                                    class="text-amber-200/80">不一定齊全，僅供參考</strong>。實際收費請以到店確認為準，建議事前致電詢問。</p>
                         </div>
                     </div>
 
@@ -312,7 +402,8 @@
                             <p class="text-slate-400 text-xs italic">依 Google Maps 評論彙整 · 僅供參考</p>
                         </div>
                         <div class="min-w-[240px]">
-                            <select id="price-shop-selector" onchange="renderPriceList()" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white appearance-none outline-none focus:border-emerald-500 text-sm">
+                            <select id="price-shop-selector" onchange="renderPriceList()"
+                                class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white appearance-none outline-none focus:border-emerald-500 text-sm">
                                 <!-- 由 JS 填充 -->
                             </select>
                         </div>
@@ -328,13 +419,18 @@
 
         <!-- 底部提示區 -->
         <footer class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-8">
-            <div class="shop-card bg-white p-6 rounded-3xl text-center" style="box-shadow: 0 4px 16px rgba(0,0,0,0.07);">
-                <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">🚕</div>
+            <div class="shop-card bg-white p-6 rounded-3xl text-center"
+                style="box-shadow: 0 4px 16px rgba(0,0,0,0.07);">
+                <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">🚕
+                </div>
                 <h4 class="font-bold text-slate-800 mb-1.5 text-sm">交通推薦</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed">下載 <b class="text-slate-700">Grab</b> 叫車，費用透明，避免路邊隨機攔車被坑。</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">下載 <b class="text-slate-700">Grab</b>
+                    叫車，費用透明，避免路邊隨機攔車被坑。</p>
             </div>
-            <div class="shop-card bg-white p-6 rounded-3xl text-center" style="box-shadow: 0 4px 16px rgba(0,0,0,0.07);">
-                <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">🔇</div>
+            <div class="shop-card bg-white p-6 rounded-3xl text-center"
+                style="box-shadow: 0 4px 16px rgba(0,0,0,0.07);">
+                <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">🔇
+                </div>
                 <h4 class="font-bold text-slate-800 mb-1.5 text-sm">採耳確認</h4>
                 <p class="text-[11px] text-slate-500 leading-relaxed">如不習慣，請在開始前搖頭示意「No ear cleaning」。</p>
             </div>
@@ -476,7 +572,7 @@
                 // iOS: 嘗試 URL scheme，若失敗則 fallback 到 web
                 const start = Date.now();
                 window.location.href = c.iosScheme;
-                
+
                 // 如果 2 秒後頁面還在（表示 App 未安裝），跳轉 web
                 setTimeout(() => {
                     if (Date.now() - start < 2500) {
@@ -491,13 +587,13 @@
             const shopId = parseInt(document.getElementById('price-shop-selector').value);
             const detail = detailedPriceData.find(d => d.id === shopId);
             const container = document.getElementById('price-list-container');
-            
+
             if (!detail) return;
 
             container.innerHTML = detail.packages.map((pkg, idx) => {
                 const usd = (pkg.priceVND / 25).toFixed(1);
                 const twd = Math.round((pkg.priceVND / 100) * 130);
-                
+
                 return `
                     <div class="bg-slate-800/50 rounded-3xl border border-slate-700 overflow-hidden shadow-lg animate-fadeIn">
                         <div class="bg-slate-800 p-5 flex flex-wrap items-center justify-between gap-4">
@@ -587,7 +683,7 @@
 
             // 詳細價目表選擇器
             const priceSelector = document.getElementById('price-shop-selector');
-            priceSelector.innerHTML = shopData.map(shop => 
+            priceSelector.innerHTML = shopData.map(shop =>
                 `<option value="${shop.id}">${shop.name}</option>`
             ).join('');
 
@@ -615,7 +711,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderUI();
-            
+
             // 分頁切換
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -628,4 +724,5 @@
         });
     </script>
 </body>
+
 </html>
